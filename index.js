@@ -60,8 +60,9 @@ const envy = (input, options) => {
     const examplePath = envPath + '.example';
     const checkGit = 'checkGit' in options ? options.checkGit : true;
     const checkPermissions = 'checkPermissions' in options ? options.checkPermissions : true;
+    const checkHidden = 'checkHidden' in options ? options.checkHidden : true;
 
-    if (checkGit) {
+    if (checkHidden) {
         assertHidden(envPath);
     }
 
@@ -104,7 +105,9 @@ const envy = (input, options) => {
         }
     }
 
-    assertIgnored(envPath);
+    if (checkGit) {
+        assertIgnored(envPath);
+    }
 
     const camelizedLocalEnv = camelcaseKeys(loadEnvFile(envPath));
 

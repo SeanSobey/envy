@@ -99,9 +99,9 @@ Path to the file where environment variables are kept. Must be [hidden](https://
 #### options
 
 Type: `object`<br>
-Default: `{ checkGit: true, checkPermissions: true }`
+Default: `{ checkGit: true, checkPermissions: true, checkHidden: true }`
 
-Options to skip checking gitignore and/or checking file permissions.
+Options to skip checking gitignore, checking file is hidden (starts with '.') and/or checking file permissions.
 
 ## Tips
 
