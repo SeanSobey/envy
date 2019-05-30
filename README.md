@@ -85,7 +85,7 @@ After assembling the environment from `.env` and [`process.env`](https://nodejs.
 
 ## API
 
-### envy(filepath)
+### envy(filepath, options)
 
 Returns an `object` with environment variables derived from [`process.env`](https://nodejs.org/api/process.html#process_process_env) and the contents at `filepath`. If a variable is defined in both places, `process.env` takes precedence so that users can easily override values on the command line. If all required variables are present in `process.env`, then the `.env` file need not exist. All property names are returned in camelcase.
 
@@ -95,6 +95,13 @@ Type: `string`<br>
 Default: `.env`
 
 Path to the file where environment variables are kept. Must be [hidden](https://en.wikipedia.org/wiki/Hidden_file_and_hidden_directory#macOS) (start with a `.`). Will also be used to compute the path of the example file (by appending `.example`).
+
+#### options
+
+Type: `object`<br>
+Default: `{ checkGit: true, checkPermissions: true }`
+
+Options to skip checking gitignore and/or checking file permissions.
 
 ## Tips
 

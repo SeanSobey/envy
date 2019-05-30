@@ -55,11 +55,15 @@ const isWindows = () => {
 };
 
 // eslint-disable-next-line max-statements
-const envy = (input) => {
+const envy = (input, options) => {
     const envPath = input || '.env';
     const examplePath = envPath + '.example';
+    const checkGit = 'checkGit' in options ? options.checkGit : true;
+    const checkPermissions = 'checkPermissions' in options ? options.checkPermissions : true;
 
-    assertHidden(envPath);
+    if (checkGit) {
+        assertHidden(envPath);
+    }
 
     if (checkMode(examplePath, num.S_IWOTH) === num.S_IWOTH) {
         throw new Error(`File must not be writable by others. Fix: chmod o-w '${examplePath}'`);
@@ -91,11 +95,13 @@ const envy = (input) => {
         return filterObj(camelizedGlobalEnv, camelizedExampleEnvKeys);
     }
 
-    if (isWindows() && checkMode(envPath, permissionMask) !== windowsPermission) {
-        throw new Error(`File permissions are unsafe. Make them 555 '${envPath}'`);
-    }
-    else if (!isWindows() && checkMode(envPath, permissionMask) !== ownerReadWrite) {
-        throw new Error(`File permissions are unsafe. Fix: chmod 600 '${envPath}'`);
+    if (checkPermissions) {
+        if (isWindows() && checkMode(envPath, permissionMask) !== windowsPermission) {
+            throw new Error(`File permissions are unsafe. Make them 555 '${envPath}'`);
+        }
+        else if (!isWindows() && checkMode(envPath, permissionMask) !== ownerReadWrite) {
+            throw new Error(`File permissions are unsafe. Fix: chmod 600 '${envPath}'`);
+        }
     }
 
     assertIgnored(envPath);
